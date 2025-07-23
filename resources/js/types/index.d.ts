@@ -31,14 +31,18 @@ export interface SharedData {
     [key: string]: unknown;
 }
 
+// resources/js/types/index.ts
 export interface User {
     id: number;
     name: string;
     email: string;
+    phone?: string;
+    bio?: string;
     avatar?: string;
     is_active: boolean;
     roles: Role[];
     permissions: Permission[];
+    email_verified_at?: string;
     created_at: string;
     updated_at: string;
 }
@@ -47,13 +51,16 @@ export interface Role {
     id: number;
     name: string;
     guard_name: string;
-    permissions: Permission[];
+    created_at: string;
+    updated_at: string;
 }
 
 export interface Permission {
     id: number;
     name: string;
     guard_name: string;
+    created_at: string;
+    updated_at: string;
 }
 
 export interface Class {
@@ -61,22 +68,23 @@ export interface Class {
     name: string;
     description?: string;
     teacher_id: number;
-    teacher: User;
+    teacher?: User;
     class_code: string;
     subject?: string;
-    status: 'active' | 'inactive' | 'archived';
+    grade_level?: 'elementary' | 'middle' | 'high';
     max_students: number;
-    students?: User[];
+    is_active: boolean;
     students_count?: number;
-    exams?: Exam[];
+    exams_count?: number;
     created_at: string;
     updated_at: string;
+    students?: User[];
 }
 
 export interface Question {
     id: number;
     teacher_id: number;
-    teacher: User;
+    teacher?: User;
     question_text: string;
     option_a: string;
     option_b: string;
@@ -97,21 +105,20 @@ export interface Exam {
     title: string;
     description?: string;
     teacher_id: number;
-    teacher: User;
+    teacher?: User;
     class_id: number;
-    class: Class;
+    class?: Class;
     duration_minutes: number;
     start_time: string;
     end_time: string;
-    is_active: boolean;
     shuffle_questions: boolean;
     show_results_immediately: boolean;
+    allow_review: boolean;
+    passing_score: number;
     max_attempts: number;
-    passing_score?: number;
-    settings?: Record<string, any>;
-    questions?: Question[];
+    status: 'draft' | 'published' | 'completed' | 'archived';
     questions_count?: number;
-    attempts?: ExamAttempt[];
+    attempts_count?: number;
     created_at: string;
     updated_at: string;
 }
@@ -119,9 +126,9 @@ export interface Exam {
 export interface ExamAttempt {
     id: number;
     exam_id: number;
-    exam: Exam;
+    exam?: Exam;
     student_id: number;
-    student: User;
+    student?: User;
     attempt_number: number;
     started_at?: string;
     completed_at?: string;
@@ -130,27 +137,26 @@ export interface ExamAttempt {
     percentage?: number;
     total_questions: number;
     correct_answers: number;
-    wrong_answers: number;
-    unanswered: number;
-    status: 'not_started' | 'in_progress' | 'completed' | 'submitted' | 'timed_out';
-    metadata?: Record<string, any>;
-    answers?: StudentAnswer[];
+    incorrect_answers: number;
+    unanswered_questions: number;
+    status: 'not_started' | 'in_progress' | 'submitted' | 'completed' | 'expired';
+    metadata?: any;
     created_at: string;
     updated_at: string;
 }
 
-export interface StudentAnswer {
-    id: number;
-    attempt_id: number;
-    question_id: number;
-    question: Question;
-    selected_answer?: 'a' | 'b' | 'c' | 'd';
-    is_correct?: boolean;
-    points_earned: number;
-    time_taken_seconds?: number;
-    answered_at?: string;
-    created_at: string;
-    updated_at: string;
+export interface DashboardStats {
+    classes_count?: number;
+    questions_count?: number;
+    exams_count?: number;
+    completed_exams?: number;
+    average_score?: number;
+}
+
+export interface BreadcrumbItem {
+    title: string;
+    href?: string;
+    current?: boolean;
 }
 
 export interface PageProps {
@@ -158,9 +164,14 @@ export interface PageProps {
         user: User;
     };
     flash?: {
-        success?: string;
-        error?: string;
-        warning?: string;
-        info?: string;
+        message?: string;
+        type?: 'success' | 'error' | 'warning' | 'info';
     };
+}
+
+export interface DashboardProps extends PageProps {
+    user: User;
+    stats?: DashboardStats;
+    recent_classes?: Class[];
+    recent_exams?: ExamAttempt[];
 }
