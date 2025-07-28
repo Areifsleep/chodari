@@ -6,6 +6,37 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string|null $description
+ * @property int $teacher_id
+ * @property string $class_code
+ * @property string|null $subject
+ * @property string $status
+ * @property int $max_students
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Exam> $exams
+ * @property-read int|null $exams_count
+ * @property-read int|null $students_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $students
+ * @property-read \App\Models\User $teacher
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClassModel newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClassModel newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClassModel query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClassModel whereClassCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClassModel whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClassModel whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClassModel whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClassModel whereMaxStudents($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClassModel whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClassModel whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClassModel whereSubject($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClassModel whereTeacherId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClassModel whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class ClassModel extends Model
 {
     use HasFactory;
