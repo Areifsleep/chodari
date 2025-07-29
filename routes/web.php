@@ -40,6 +40,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(['role:teacher', 'permission:delete-classes'])->group(function () {
         Route::delete('/classes/{class}', [ClassController::class, 'destroy'])->name('classes.destroy');
     });
+
+    Route::middleware(['role:teacher'])->group(function () {
+        Route::resource('questions', QuestionController::class);
+        Route::post('/questions/{question}/duplicate', [QuestionController::class, 'duplicate'])
+            ->name('questions.duplicate');
+        Route::post('/questions/{question}/toggle-status', [QuestionController::class, 'toggleStatus'])
+            ->name('questions.toggle-status');
+    });
     
     // Student-only routes
     Route::middleware(['role:student', 'permission:join-classes'])->group(function () {
