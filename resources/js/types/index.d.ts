@@ -91,6 +91,10 @@ export interface Question {
     created_at: string;
     updated_at: string;
     exams?: Exam[];
+    pivot?: {
+        question_order: number;
+        points: number;
+    };
 }
 
 export interface Exam {
