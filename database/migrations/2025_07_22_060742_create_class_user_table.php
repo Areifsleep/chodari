@@ -14,11 +14,12 @@ return new class extends Migration
             $table->foreignId('class_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamp('joined_at')->useCurrent();
+            $table->timestamp('left_at')->nullable();
             $table->enum('status', ['active', 'inactive', 'removed'])->default('active');
             $table->timestamps();
             
             $table->unique(['class_id', 'user_id']);
-            $table->index(['class_id', 'status']);
+            // $table->index(['class_id', 'status']);
             $table->index(['user_id', 'status']);
         });
     }

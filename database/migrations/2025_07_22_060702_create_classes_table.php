@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('class_code', 10)->unique();
             $table->string('subject')->nullable();
             $table->enum('status', ['active', 'inactive', 'archived'])->default('active');
+            $table->enum('grade_level', ['elementary', 'middle', 'high'])->nullable();
             $table->integer('max_students')->default(50);
             $table->timestamps();
             

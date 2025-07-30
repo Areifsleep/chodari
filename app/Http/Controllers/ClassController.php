@@ -92,7 +92,14 @@ class ClassController extends Controller
     {
         // Check ownership
         abort_unless($class->teacher_id === Auth::id(), 403, 'You can only edit your own classes.');
-
+    
+        // Load the class with counts for the edit form
+        $class->loadCount(['students as students_count' => function($query) {
+            $query->wherePivot('status', 'active');
+        }]);
+        
+        $class->loadCount('exams');
+    
         return Inertia::render('Classes/Edit', [
             'class' => $class,
         ]);

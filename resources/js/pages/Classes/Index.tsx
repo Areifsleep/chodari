@@ -18,8 +18,8 @@ interface ClassesIndexProps extends PageProps {
 
 export default function ClassesIndex({ classes, can_create }: ClassesIndexProps) {
     const breadcrumbs = [
-        { label: 'Dashboard', href: '/dashboard' },
-        { label: 'Classes', current: true },
+        { title: 'Dashboard', href: '/dashboard' },
+        { title: 'Classes', href: '/classes' },
     ];
 
     return (
