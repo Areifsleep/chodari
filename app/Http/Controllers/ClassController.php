@@ -20,6 +20,7 @@ class ClassController extends Controller
         
         if ($user->hasRole('teacher')) {
             $classes = $user->teachingClasses()
+                ->where('status', 'active')
                 ->withCount(['students as students_count' => function($query) {
                     $query->wherePivot('status', 'active');
                 }])

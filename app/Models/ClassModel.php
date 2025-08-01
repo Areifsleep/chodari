@@ -51,11 +51,11 @@ class ClassModel extends Model
         'subject',
         'grade_level',
         'max_students',
-        'is_active',
+        'status',
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
+    
         'max_students' => 'integer',
     ];
 
@@ -99,5 +99,20 @@ class ClassModel extends Model
     public function getStudentsCountAttribute()
     {
         return $this->students()->wherePivot('status', 'active')->count();
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status === 'active';
+    }
+
+    public function isInactive(): bool
+    {
+        return $this->status === 'inactive';
+    }
+
+    public function isArchived(): bool
+    {
+        return $this->status === 'archived';
     }
 }

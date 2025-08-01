@@ -66,6 +66,7 @@ class Exam extends Model
         'allow_review',
         'passing_score',
         'max_attempts',
+        'settings',
         'status',
     ];
 
@@ -112,5 +113,15 @@ class Exam extends Model
     public function canBeTaken(): bool
     {
         return $this->isActive() && $this->status === 'published';
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->status === 'published';
+    }
+
+    public function isDraft(): bool
+    {
+        return $this->status === 'draft';
     }
 }

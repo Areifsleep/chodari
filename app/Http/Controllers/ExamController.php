@@ -19,25 +19,36 @@ class ExamController extends Controller
     public function index(Request $request): Response
     {
         $user = $request->user();
-        
-        $exams = $user->createdExams()
-            ->with(['class', 'questions'])
-            ->withCount(['questions', 'attempts'])
-            ->when($request->search, function ($query, $search) {
-                $query->where('title', 'like', "%{$search}%");
-            })
-            ->when($request->status, function ($query, $status) {
-                $query->where('status', $status);
-            })
-            ->when($request->class_id, function ($query, $classId) {
-                $query->where('class_id', $classId);
-            })
-            ->latest()
-            ->paginate(10)
-            ->withQueryString();
+    
+        if ($user->hasRole('teacher')) {
+            $exams = $user->createdExams()
+                ->with(['class', 'questions'])
+                ->withCount(['attempts', 'questions'])
+                ->when($request->search, function ($query, $search) {
+                    $query->where('title', 'like', "%{$search}%");
+                })
+                ->when($request->class_id, function ($query, $classId) {
+                    $query->where('class_id', $classId);
+                })
+                ->when($request->status, function ($query, $status) {
+                    $query->where('status', $status); // ✅ Use 'status'
+                })
+                ->latest()
+                ->paginate(12)
+                ->withQueryString();
+        } else {
+            // Student view
+            $exams = Exam::whereHas('class.students', function ($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })
+                ->where('status', 'published') // ✅ Use 'status'
+                ->with(['class', 'teacher'])
+                ->latest()
+                ->paginate(12);
+        }
 
         $classes = $user->teachingClasses()
-            ->where('is_active', true)
+            ->where('status', 'active')
             ->get(['id', 'name']);
 
         return Inertia::render('Exams/Index', [

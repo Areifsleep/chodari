@@ -146,7 +146,9 @@ export default function ClassShow({ class: classItem, can_edit }: ClassShowProps
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-muted-foreground">Status:</span>
-                                <Badge variant={classItem.is_active ? 'default' : 'secondary'}>{classItem.is_active ? 'Active' : 'Inactive'}</Badge>
+                                <Badge variant={classItem.status === 'active' ? 'default' : 'secondary'}>
+                                    {classItem.status.charAt(0).toUpperCase() + classItem.status.slice(1)}
+                                </Badge>
                             </div>
                         </CardContent>
                     </Card>

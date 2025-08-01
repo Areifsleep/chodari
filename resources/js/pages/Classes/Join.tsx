@@ -23,7 +23,8 @@ export default function JoinClass({}: PageProps) {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        post(route('classes.join'));
+        console.log('Submitting to:', route('classes.join.store'));
+        post(route('classes.join.store'));
     };
 
     return (

@@ -18,7 +18,8 @@ return new class extends Migration
             $table->integer('duration_minutes');
             $table->datetime('start_time');
             $table->datetime('end_time');
-            $table->boolean('is_active')->default(true);
+            // $table->boolean('is_active')->default(true);
+            $table->enum('status', ['draft', 'published', 'completed', 'archived'])->default('draft');
             $table->boolean('shuffle_questions')->default(false);
             $table->boolean('show_results_immediately')->default(true);
             $table->integer('max_attempts')->default(1);

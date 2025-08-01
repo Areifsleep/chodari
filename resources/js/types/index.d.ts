@@ -65,7 +65,8 @@ export interface ClassModel {
     subject?: string;
     grade_level?: 'elementary' | 'middle' | 'high';
     max_students: number;
-    is_active: boolean;
+    // is_active: boolean;
+    status: 'active' | 'archived' | 'inactive';
     students_count?: number;
     exams_count?: number;
     created_at: string;

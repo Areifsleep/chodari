@@ -46,16 +46,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
     
     // Student routes
-    Route::middleware(['role:student'])->group(function () {
-        Route::get('/classes/join', [StudentController::class, 'showJoinClass'])->name('classes.join');
-        Route::post('/classes/join', [StudentController::class, 'joinClass']);
-        Route::get('/exams/{exam}/take', [StudentController::class, 'takeExam'])->name('exams.take');
-        Route::post('/exams/{exam}/start', [StudentController::class, 'startExam'])->name('exams.start');
-        Route::post('/exams/{exam}/submit', [StudentController::class, 'submitExam'])->name('exams.submit');
-        Route::get('/exams/{exam}/result', [StudentController::class, 'examResult'])->name('exams.result');
-        Route::get('/my-classes', [StudentController::class, 'myClasses'])->name('my-classes');
-        Route::get('/my-exams', [StudentController::class, 'myExams'])->name('my-exams');
-    });
+    
+// routes/web.php - Add to student middleware group
+Route::middleware(['role:student'])->group(function () {
+    Route::get('/classes/join', [StudentController::class, 'showJoinClass'])->name('classes.join');
+    Route::post('/classes/join', [StudentController::class, 'joinClass'])->name('classes.join.store');;
+    Route::post('/classes/{class}/leave', [StudentController::class, 'leaveClass'])->name('classes.leave');
+    Route::get('/exams/{exam}/take', [StudentController::class, 'takeExam'])->name('exams.take');
+    Route::post('/exams/{exam}/start', [StudentController::class, 'startExam'])->name('exams.start');
+    Route::post('/exams/{exam}/save-progress', [StudentController::class, 'saveProgress'])->name('exams.save-progress'); // Add this
+    Route::post('/exams/{exam}/submit', [StudentController::class, 'submitExam'])->name('exams.submit');
+    Route::get('/exams/{exam}/result', [StudentController::class, 'examResult'])->name('exams.result');
+    Route::get('/my-classes', [StudentController::class, 'myClasses'])->name('my-classes');
+    Route::get('/my-exams', [StudentController::class, 'myExams'])->name('my-exams');
+});
     
     // Shared routes (both teachers and students) - PUT THESE LAST
     Route::get('/classes', [ClassController::class, 'index'])->name('classes.index');
